@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Subscription Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.95; }
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+            text-shadow: 0 0 2px rgba(0, 255, 0, 0.3);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 0, 0.03) 0px,
+                transparent 2px,
+                transparent 4px,
+                rgba(0, 255, 0, 0.03) 6px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: #000000;
+            border: 2px solid #00ff00;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.05);
+            animation: flicker 3s infinite;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #00ff00;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: #00aa00;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: transparent;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+        }
+
+        .social-link:hover {
+            background: #00ff00;
+            color: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            text-shadow: none;
+            transform: translateY(-2px);
+        }
+
+        .social-icon {
+            font-size: 1.2em;
+        }
+
+        .category {
+            background: #000000;
+            border: 1px solid #00ff00;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .category:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
+            border-color: #00ff00;
+        }
+
+        .category-title {
+            font-size: 2em;
+            color: #00ff00;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #00ff00;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-shadow: 0 0 10px #00ff00;
+            letter-spacing: 3px;
+        }
+
+        .category-icon {
+            font-size: 1.2em;
+            filter: brightness(0) saturate(100%) invert(67%) sepia(72%) saturate(2413%) hue-rotate(79deg) brightness(119%) contrast(119%);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: #0d0d0d;
+            border: 1px solid #00aa00;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.05);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #00ff00;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: transparent;
+            color: #00ff00;
+            padding: 4px 12px;
+            border: 1px solid #00ff00;
+            font-size: 0.75em;
+            margin-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .product-badge.premium {
+            color: #ff0000;
+            border-color: #ff0000;
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .product-badge.warranty {
+            color: #00ffff;
+            border-color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+        .product-badge.solo {
+            color: #ffff00;
+            border-color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
+        }
+
+        .plan-list {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .plan-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: rgba(0, 255, 0, 0.02);
+            border: 1px solid #003300;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .plan-item:hover {
+            background: rgba(0, 255, 0, 0.05);
+            border-color: #00aa00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .plan-duration {
+            font-weight: 600;
+            color: #00aa00;
+        }
+
+        .plan-price {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .product-features {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #003300;
+        }
+
+        .feature {
+            font-size: 0.9em;
+            color: #00aa00;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature::before {
+            content: ">";
+            color: #00ff00;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #000000;
+            border: 2px solid #00ff00;
+            margin-top: 30px;
+            color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        footer h3 {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            letter-spacing: 3px;
+        }
+
+        .contact-info {
+            font-size: 1.1em;
+            margin-top: 10px;
+            color: #00aa00;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #000000;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-size: 1.5em;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 10px #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #00ff00;
+            color: #000000;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                letter-spacing: 2px;
+            }
+
+            .tagline {
+                font-size: 1em;
+            }
+
+            .social-links {
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .social-link {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+
+            header {
+                padding: 25px 15px;
+            }
+
+            .category {
+                padding: 20px 15px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .category-title {
+                font-size: 1.3em;
+                letter-spacing: 2px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .product-card {
+                padding: 15px;
+            }
+
+            .product-name {
+                font-size: 1.1em;
+            }
+
+            .plan-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .plan-price {
+                font-size: 1.2em;
+            }
+
+            .search-box {
+                font-size: 1em;
+                padding: 12px 15px;
+            }
+
+            .search-label {
+                font-size: 1em;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+            }
+
+            footer {
+                padding: 20px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .tagline {
+                font-size: 0.9em;
+            }
+
+            .social-links {
+                gap: 8px;
+            }
+
+            .social-link {
+                font-size: 0.75em;
+                padding: 5px 10px;
+            }
+
+            .category-title {
+                font-size: 1.1em;
+            }
+
+            .product-name {
+                font-size: 1em;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+        }
+
+        .note {
+            background: rgba(255, 0, 0, 0.05);
+            border-left: 3px solid #ff0000;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: #ff6666;
+            text-shadow: 0 0 3px rgba(255, 0, 0, 0.3);
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            padding: 15px 20px;
+            background: #000000;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            outline: none;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 2px rgba(0, 255, 0, 0.3);
+        }
+
+        .search-box::placeholder {
+            color: #00aa00;
+            opacity: 0.7;
+        }
+
+        .search-box:focus {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+            border-color: #00ff00;
+        }
+
+        .search-label {
+            color: #00ff00;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #ff0000;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px #ff0000;
+            border: 1px solid #ff0000;
+            background: rgba(255, 0, 0, 0.05);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Premium Subscriptions</h1>
+            <p class="tagline">Your One-Stop Shop for All Premium Services</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/fvkevrything/" target="_blank" class="social-link">
+                    <span class="social-icon">[FB]</span> Facebook
+                </a>
+                <a href="https://www.instagram.com/wmlaygwyffm/" target="_blank" class="social-link">
+                    <span class="social-icon">[IG]</span> Instagram
+                </a>
+                <a href="https://www.tiktok.com/@tiktoknibathala" target="_blank" class="social-link">
+                    <span class="social-icon">[TT]</span> TikTok
+                </a>
+                <a href="https://t.me/urboiadri" target="_blank" class="social-link">
+                    <span class="social-icon">[TG]</span> Telegram
+                </a>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <span class="search-label">&gt;</span>
+            <input type="text" id="searchBox" class="search-box" placeholder="Search products... (e.g., Netflix, Spotify, Canva)">
+        </div>
+
+        <!-- STREAMING SERVICES -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">📺</span>
+                Streaming Services
+            </h2>
+            <div class="products-grid">
+                <!-- Netflix -->
+                <div class="product-card">
+                    <div class="product-name">Netflix</div>
+                    <span class="product-badge">Shared Account</span>
+                    <span class="product-badge warranty">Full Warranty</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Device • 1 Month</span>
+                            <span class="plan-price">₱90.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Devices • 1 Month</span>
+                            <span class="plan-price">₱150.00</span>
+                        </li>
+                    </ul>
+                    <div class="product-features">
+                        <div class="feature">Straight subscription</div>
+                        <div class="feature">Not prorated</div>
+                        <div class="feature">Legally paid</div>
+                        <div class="feature">GCMETH</div>
+                    </div>
+                </div>
+
+                <!-- HBO Max -->
+                <div class="product-card">
+                    <div class="product-name">HBO Max / HBO Go</div>
+                    <span class="product-badge">PH Based</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Shared • 1D</span>
+                            <span class="plan-price">₱65.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo • 1D</span>
+                            <span class="plan-price">₱90.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo • 2D</span>
+                            <span class="plan-price">₱110.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo • 8 Devices</span>
+                            <span class="plan-price">₱200.00</span>
+                        </li>
+                    </ul>
+                    <div class="note">+₱25 if TV use</div>
+                </div>
+
+                <!-- VIVA -->
+                <div class="product-card">
+                    <div class="product-name">VIVA One & VIVA Max</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo</span>
+                            <span class="plan-price">₱150.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Shared</span>
+                            <span class="plan-price">₱80.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- VIU Premium -->
+                <div class="product-card">
+                    <div class="product-name">VIU Premium PH</div>
+                    <span class="product-badge">Shared - 1 Device</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱70.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">8 Months</span>
+                            <span class="plan-price">₱150.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">10 Months</span>
+                            <span class="plan-price">₱170.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱200.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge solo">Solo - 4-5 Devices</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- iWantTFC -->
+                <div class="product-card">
+                    <div class="product-name">iWantTFC</div>
+                    <span class="product-badge">Shared Account</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱60.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱80.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱125.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- LokLok -->
+                <div class="product-card">
+                    <div class="product-name">LokLok Premium</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Shared</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo</span>
+                            <span class="plan-price">₱120.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- YouTube Premium -->
+                <div class="product-card">
+                    <div class="product-name">YouTube Premium</div>
+                    <span class="product-badge">Family Head</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge solo">Solo</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">4 Months</span>
+                            <span class="plan-price">₱60.00</span>
+                        </li>
+                    </ul>
+                    <div class="note">Own account or provided account (+₱3 for provided)</div>
+                </div>
+
+                <!-- iQiyi/WeTV -->
+                <div class="product-card">
+                    <div class="product-name">iQIYI / WeTV VIP</div>
+                    <span class="product-badge premium">Standard VIP</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Amazon Prime -->
+                <div class="product-card">
+                    <div class="product-name">Amazon Prime Video</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Shared • 1 Device</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo • 5 Devices</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Crunchyroll -->
+                <div class="product-card">
+                    <div class="product-name">Crunchyroll</div>
+                    <span class="product-badge premium">Mega Fan</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱60.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱120.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Disney Plus -->
+                <div class="product-card">
+                    <div class="product-name">Disney Plus</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Shared Profile</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo • 1 Device</span>
+                            <span class="plan-price">₱95.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month Solo • 2 Devices</span>
+                            <span class="plan-price">₱145.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Bilibili -->
+                <div class="product-card">
+                    <div class="product-name">Bilibili</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- DESIGN & PRODUCTIVITY TOOLS -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">🎨</span>
+                Design & Productivity Tools
+            </h2>
+            <div class="products-grid">
+                <!-- Canva -->
+                <div class="product-card">
+                    <div class="product-name">Canva</div>
+                    <span class="product-badge">Canva Pro Solo with Brandkit</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱60.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Year</span>
+                            <span class="plan-price">₱70.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge premium">Canva EDU</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Lifetime</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- PicsArt -->
+                <div class="product-card">
+                    <div class="product-name">PicsArt Gold</div>
+                    <span class="product-badge solo">Solo Account</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- CapCut -->
+                <div class="product-card">
+                    <div class="product-name">CapCut Pro</div>
+                    <span class="product-badge">Shared</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">7 Days</span>
+                            <span class="plan-price">₱20.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱65.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge solo">Solo</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱150.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDUCATIONAL TOOLS -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">📚</span>
+                Educational & Learning Tools
+            </h2>
+            <div class="products-grid">
+                <!-- Quizlet -->
+                <div class="product-card">
+                    <div class="product-name">Quizlet</div>
+                    <span class="product-badge solo">Solo Account</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱45.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">8 Months</span>
+                            <span class="plan-price">₱60.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱80.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Turnitin -->
+                <div class="product-card">
+                    <div class="product-name">Turnitin Student</div>
+                    <span class="product-badge solo">Solo Account</span>
+                    <span class="product-badge warranty">Full Warranty</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">7 Days</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">15 Days</span>
+                            <span class="plan-price">₱80.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱120.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱180.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱260.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱380.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱700.00</span>
+                        </li>
+                    </ul>
+                    <div class="product-features">
+                        <div class="feature">Plagiarism only</div>
+                        <div class="feature">Straight subscription</div>
+                        <div class="feature">100 submissions button (1 button = 3 submissions)</div>
+                        <div class="feature">300 scan per day</div>
+                        <div class="feature">100 new sets of buttons per month</div>
+                        <div class="feature">Your own domain/mine</div>
+                    </div>
+                    <div class="note">Instructor not available</div>
+                </div>
+
+                <!-- File Checker -->
+                <div class="product-card">
+                    <div class="product-name">File Checker</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">Plagiarism Scan</span>
+                            <span class="plan-price">₱10.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">AI Scan</span>
+                            <span class="plan-price">₱15.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Plagiarism + AI Checker</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Grammarly -->
+                <div class="product-card">
+                    <div class="product-name">Grammarly</div>
+                    <span class="product-badge">Shared</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month • No Warranty</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month • Full Warranty</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge solo">Solo</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱80.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Duolingo -->
+                <div class="product-card">
+                    <div class="product-name">Duolingo</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">14 Days</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱55.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱95.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">8 Months</span>
+                            <span class="plan-price">₱120.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱150.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- MS365 -->
+                <div class="product-card">
+                    <div class="product-name">Microsoft 365</div>
+                    <span class="product-badge solo">Solo</span>
+                    <span class="product-badge warranty">Full Warranty</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱45.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱65.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱100.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge">Family</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                    </ul>
+                    <div class="product-features">
+                        <div class="feature">Monthly replacement</div>
+                        <div class="feature">Own/provided account</div>
+                        <div class="feature">MS365 Office Apps benefits</div>
+                    </div>
+                    <div class="note">+₱10 if famhead account (monthly replacement) • Own acc inv (no add)</div>
+                </div>
+
+                <!-- Mathway -->
+                <div class="product-card">
+                    <div class="product-name">Mathway</div>
+                    <span class="product-badge">Shared</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱65.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱100.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge solo">Solo</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱65.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱100.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱135.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Quillbot -->
+                <div class="product-card">
+                    <div class="product-name">Quillbot</div>
+                    <span class="product-badge">Shared - 1 Device</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱45.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱135.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge solo">Solo - 5 Devices</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱95.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱140.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱175.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Scribd -->
+                <div class="product-card">
+                    <div class="product-name">Scribd</div>
+                    <span class="product-badge">Shared</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱70.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge solo">Solo</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱150.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- StudoCu -->
+                <div class="product-card">
+                    <div class="product-name">Studocu</div>
+                    <span class="product-badge solo">Solo</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱65.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱100.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Skillshare -->
+                <div class="product-card">
+                    <div class="product-name">Skillshare</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months Straight</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱75.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱125.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- CourseHero -->
+                <div class="product-card">
+                    <div class="product-name">Course Hero</div>
+                    <span class="product-badge premium">Unlocks - ₱8 each</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">5 Unlocks</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">10 Unlocks</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">15 Unlocks</span>
+                            <span class="plan-price">₱70.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">20 Unlocks</span>
+                            <span class="plan-price">₱85.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">30 Unlocks</span>
+                            <span class="plan-price">₱115.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ZOOM PRO -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">💼</span>
+                Business & Conference Tools
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-name">Zoom Pro</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">100 Participants</span>
+                            <span class="plan-price">₱180.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">300 Participants</span>
+                            <span class="plan-price">₱260.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">500 Participants</span>
+                            <span class="plan-price">₱360.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1000 Participants</span>
+                            <span class="plan-price">₱460.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- MUSIC STREAMING -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">🎵</span>
+                Music Streaming Services
+            </h2>
+            <div class="products-grid">
+                <!-- Spotify -->
+                <div class="product-card">
+                    <div class="product-name">Spotify</div>
+                    <span class="product-badge solo">Solo - Legally Paid</span>
+                    <span class="product-badge warranty">PH Based</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱60.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱110.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">4 Months</span>
+                            <span class="plan-price">₱160.00</span>
+                        </li>
+                    </ul>
+                    <div class="product-features">
+                        <div class="feature">Straight subscription (no hold/wipe)</div>
+                    </div>
+                    <div class="note">+₱10 for own account/custom</div>
+                </div>
+
+                <!-- Tidal -->
+                <div class="product-card">
+                    <div class="product-name">Tidal HiFi+</div>
+                    <span class="product-badge solo">Solo</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱60.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">6 Months</span>
+                            <span class="plan-price">₱80.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">12 Months</span>
+                            <span class="plan-price">₱100.00</span>
+                        </li>
+                    </ul>
+                    <span class="product-badge">Family Head</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month • Invite 5 accounts</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                    </ul>
+                    <div class="product-features">
+                        <div class="feature">Monthly replacement</div>
+                    </div>
+                </div>
+
+                <!-- Apple Music -->
+                <div class="product-card">
+                    <div class="product-name">Apple Music</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱70.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">2 Months</span>
+                            <span class="plan-price">₱140.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">3 Months</span>
+                            <span class="plan-price">₱200.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- VPN SERVICES -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">🔒</span>
+                VPN Services
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-name">VPN Services</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">10GB Windscribe</span>
+                            <span class="plan-price">₱25.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1M Express VPN (Shared)</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1M HMA VPN (Shared)</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1M Surfshark VPN</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">14 Days CyberGhost</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month CyberGhost</span>
+                            <span class="plan-price">₱85.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1M Namecheap</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1M VyprVPN</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month HMA VPN</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- UNLOCKS SERVICES -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">🔓</span>
+                Document Unlock Services
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-name">Unlock Services</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">Chegg Q&A, Bartleby, Brainly, Academia</span>
+                            <span class="plan-price">₱4.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Quizlet, StudyCom, SlideShare, Scribd, Studocu</span>
+                            <span class="plan-price">₱5.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Chegg Textbook, GauthMath, WolframAlpha</span>
+                            <span class="plan-price">₱6.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Numerade, LitChart, SolutionInn, Studypool, Transtutor, Scribd Book</span>
+                            <span class="plan-price">₱7.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Course Hero & Other Links</span>
+                            <span class="plan-price">₱8.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-name">Post Question Services</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">Chegg</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Course Hero</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Bartleby</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">Studypool</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">AI Question</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTHER PREMIUM SERVICES -->
+        <div class="category">
+            <h2 class="category-title">
+                <span class="category-icon">⭐</span>
+                Other Premium Services
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-name">NBA League Pass</div>
+                    <span class="product-badge">Shared - 2 Devices</span>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">7 Days</span>
+                            <span class="plan-price">₱30.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1 Month</span>
+                            <span class="plan-price">₱85.00</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-name">Productivity Apps</div>
+                    <ul class="plan-list">
+                        <li class="plan-item">
+                            <span class="plan-duration">7D WPS Office</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">7D Adobe Acrobat Pro</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">7D Remini Pro</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">7D Symbolab</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">14D Zookal</span>
+                            <span class="plan-price">₱40.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1M Numerade</span>
+                            <span class="plan-price">₱35.00</span>
+                        </li>
+                        <li class="plan-item">
+                            <span class="plan-duration">1M Photomath</span>
+                            <span class="plan-price">₱50.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <h3>Ready to Order?</h3>
+            <p class="contact-info">Contact us for instant delivery and support!</p>
+            <p style="margin-top: 15px; color: #999; font-size: 0.9em;">All prices in Philippine Peso (₱)</p>
+        </footer>
+    </div>
+
+    <button id="backToTop" class="back-to-top" title="Back to Top">▲</button>
+
+    <script>
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        const categories = document.querySelectorAll('.category');
+        let noResultsMessage = null;
+
+        // Back to top functionality
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        searchBox.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let hasVisibleResults = false;
+
+            // Remove existing no results message
+            if (noResultsMessage) {
+                noResultsMessage.remove();
+                noResultsMessage = null;
+            }
+
+            categories.forEach(category => {
+                const products = category.querySelectorAll('.product-card');
+                let categoryHasVisible = false;
+
+                products.forEach(product => {
+                    const productName = product.querySelector('.product-name').textContent.toLowerCase();
+                    const features = Array.from(product.querySelectorAll('.feature')).map(f => f.textContent.toLowerCase()).join(' ');
+                    const badges = Array.from(product.querySelectorAll('.product-badge')).map(b => b.textContent.toLowerCase()).join(' ');
+                    const plans = Array.from(product.querySelectorAll('.plan-duration')).map(p => p.textContent.toLowerCase()).join(' ');
+                    const notes = product.querySelector('.note') ? product.querySelector('.note').textContent.toLowerCase() : '';
+                    
+                    const searchableContent = `${productName} ${features} ${badges} ${plans} ${notes}`;
+
+                    if (searchTerm === '' || searchableContent.includes(searchTerm)) {
+                        product.classList.remove('hidden');
+                        categoryHasVisible = true;
+                        hasVisibleResults = true;
+                    } else {
+                        product.classList.add('hidden');
+                    }
+                });
+
+                // Hide category if no products are visible
+                if (categoryHasVisible) {
+                    category.classList.remove('hidden');
+                } else {
+                    category.classList.add('hidden');
+                }
+            });
+
+            // Show no results message if nothing is visible
+            if (!hasVisibleResults && searchTerm !== '') {
+                noResultsMessage = document.createElement('div');
+                noResultsMessage.className = 'no-results';
+                noResultsMessage.textContent = `[!] No results found for "${searchTerm}" - Try different keywords`;
+                searchBox.parentElement.after(noResultsMessage);
+            }
+        });
+
+        // Search functionality end
+    </script>
+</body>
+</html>
